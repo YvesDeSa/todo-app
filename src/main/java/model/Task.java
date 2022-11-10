@@ -2,10 +2,6 @@ package model;
 
 import java.util.Date;
 
-/**
- *
- * @author SSD
- */
 public class Task {
     private int id;
     private int idProject;
