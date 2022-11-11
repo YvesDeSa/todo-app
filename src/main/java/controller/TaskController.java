@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Task;
@@ -12,7 +11,7 @@ import util.ConnectionFactory;
 
 public class TaskController {
     
-    public void save(Task task) throws SQLException{
+    public void save(Task task) {
         String sql = "INSERT INTO tasks (idProject," + 
                 "name,"+
                 "description,"+
@@ -20,7 +19,7 @@ public class TaskController {
                 "notes," +
                 "deadline," +
                 "createdAt," +
-                "updateAt )" +
+                "updatedAt )" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         Connection connection = null;
@@ -36,7 +35,7 @@ public class TaskController {
             statement.setString(5, task.getNotes());
             statement.setDate(6, new Date(task.getDeadline().getTime()));
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdateAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.execute();
             
         } catch (Exception e) {
@@ -48,14 +47,14 @@ public class TaskController {
     
     public void update(Task task){
         String sql = "UPDATE tasks  SET " +
-                "idProject = ?" + 
-                "name = ?"+
-                "description = ?"+
-                "notes = ?" +
-                "completed = ?" +
-                "deadline = ?" +
-                "createdAt = ?" +
-                "updateAt = ?" + 
+                "idProject = ?," + 
+                "name = ?,"+
+                "description = ?,"+
+                "notes = ?," +
+                "completed = ?," +
+                "deadline = ?," +
+                "createdAt = ?," +
+                "updatedAt = ?" + 
                 "WHERE id = ?";
          
         Connection connection = null;
@@ -71,7 +70,7 @@ public class TaskController {
             statement.setString(5, task.getNotes());
             statement.setDate(6, new Date(task.getDeadline().getTime()));
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdateAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.setInt(9, task.getId());
             statement.execute();
             
@@ -127,11 +126,11 @@ public class TaskController {
                 task.setNotes(resultSet.getString("notes"));
                 task.setDeadline(new Date(resultSet.getDate("deadline").getTime()));
                 task.setCreatedAt(new Date(resultSet.getDate("createdAt").getTime()));
-                task.setUpdateAt(new Date(resultSet.getDate("updateAt").getTime()));
+                task.setUpdatedAt(new Date(resultSet.getDate("updatedAt").getTime()));
                 
                 tasks.add(task);
             }
-            
+             
         } catch (Exception e) {
             throw new RuntimeException("Erro ao retornar tarefas");
         } finally {

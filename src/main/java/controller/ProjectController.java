@@ -11,10 +11,10 @@ import util.ConnectionFactory;
 
 public class ProjectController {
      public void save(Project project) {
-        String sql = "INSERT INTO tasks (name," +
+        String sql = "INSERT INTO projects (name," +
                 "description,"+
                 "createdAt," +
-                "updateAt )" +
+                "updatedAt )" +
                 " VALUES (?, ?, ?, ?)";
         
         Connection connection = null;
@@ -38,11 +38,11 @@ public class ProjectController {
     }
     
     public void update(Project project){
-        String sql = "UPDATE project  SET " +
-                "name = ?"+
-                "description = ?"+
-                "createdAt = ?" +
-                "updateAt = ?" + 
+        String sql = "UPDATE projects SET " +
+                "name = ?,"+
+                "description = ?,"+
+                "createdAt = ?," +
+                "updatedAt = ?" + 
                 "WHERE id = ?";
          
         Connection connection = null;
@@ -66,7 +66,7 @@ public class ProjectController {
     }
     
     public void removeById(int projectId){
-        String sql = "DELETE FROM tasks WHERE id = ?";
+        String sql = "DELETE FROM projects WHERE id = ?";
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -105,7 +105,7 @@ public class ProjectController {
                 project.setName(resultSet.getString("name"));
                 project.setDescription(resultSet.getString("description"));
                 project.setCreatedAt(new Date(resultSet.getDate("createdAt").getTime()));
-                project.setUpdatedAt(new Date(resultSet.getDate("updateAt").getTime()));
+                project.setUpdatedAt(new Date(resultSet.getDate("updatedAt").getTime()));
                 
                 projects.add(project);
             }
