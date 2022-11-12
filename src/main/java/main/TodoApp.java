@@ -1,25 +1,29 @@
 package main;
 
-import controller.ProjectController;
+import controller.TaskController;
+import java.util.Date;
 import java.util.List;
-import model.Project;
+import model.Task;
 
 public class TodoApp {
 
     public static void main(String[] args) {
-        ProjectController projectController = new ProjectController();
+        TaskController taskController = new TaskController();
         
-        Project project = new Project();
-        project.setName("Projeto Teste");
-        project.setDescription("descrição");
+        Task task = new Task();
+        task.setName("Projeto Teste");
+        task.setIdProject(7);
+        task.setDescription("descrição");
+        task.setDeadline(new Date());
+        task.setNotes("Notes teste");
         
-        projectController.save(project);
+        taskController.save(task);
         
-        project.setName("Novo Nome do Projeto Teste");
-        projectController.update(project);
+        task.setName("Novo Nome do Projeto Teste");
+        taskController.update(task);
         
-        List<Project> projects = projectController.getAll();
-        System.out.print("Total de projetos: " + projects.size());
+        List<Task> tasks = taskController.getAll(task.getIdProject());
+        System.out.print("Total de tarefas: " + tasks.size());
         
     }
 }

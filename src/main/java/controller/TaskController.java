@@ -12,15 +12,15 @@ import util.ConnectionFactory;
 public class TaskController {
     
     public void save(Task task) {
-        String sql = "INSERT INTO tasks (idProject," + 
+        String sql = "INSERT INTO tasks (id_project," + 
                 "name,"+
                 "description,"+
                 "completed," + 
                 "notes," +
                 "deadline," +
-                "createdAt," +
-                "updatedAt )" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "createdat," +
+                "updatedat )" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -47,7 +47,7 @@ public class TaskController {
     
     public void update(Task task){
         String sql = "UPDATE tasks  SET " +
-                "idProject = ?," + 
+                "id_project = ?," + 
                 "name = ?,"+
                 "description = ?,"+
                 "notes = ?," +
@@ -63,11 +63,11 @@ public class TaskController {
         try {
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1,task.getIdProject());
+            statement.setInt(1, task.getIdProject());
             statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
-            statement.setBoolean(4, task.isCompleted());
-            statement.setString(5, task.getNotes());
+            statement.setString(4, task.getNotes());
+            statement.setBoolean(5, task.isCompleted());
             statement.setDate(6, new Date(task.getDeadline().getTime()));
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
@@ -75,7 +75,7 @@ public class TaskController {
             statement.execute();
             
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar a tarefa");
+            throw new RuntimeException("Erro ao atualizar a tarefa: " + e);
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
@@ -101,7 +101,7 @@ public class TaskController {
     }
     
     public List<Task> getAll(int projectId){
-        String sql = "SELECT * FROM tasks WHERE idProject = ?";
+        String sql = "SELECT * FROM tasks WHERE id_project = ?";
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -119,7 +119,7 @@ public class TaskController {
             while(resultSet.next()){
                 Task task = new Task();
                 task.setId(resultSet.getInt("id"));
-                task.setIdProject(resultSet.getInt("idProject"));
+                task.setIdProject(resultSet.getInt("id_project"));
                 task.setName(resultSet.getString("name"));
                 task.setDescription(resultSet.getString("description"));
                 task.setIsCompleted(resultSet.getBoolean("completed"));
@@ -132,7 +132,7 @@ public class TaskController {
             }
              
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao retornar tarefas");
+            throw new RuntimeException("Erro ao retornar tarefas" + e);
         } finally {
             ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
